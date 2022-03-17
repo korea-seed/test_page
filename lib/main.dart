@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:splashscreen/splashscreen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,13 +14,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      tgheme: ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: MyHomePage(title: "ha...",),
+
+//      home: MyHomePage(title: "ha...",),
+
+      home: SplashScreen(
+        seconds: 2,
+        navigateAfterSeconds: MyHomePage(title: "ha...",),
+        title: const Text(
+          'SplashScreen Example',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+              color: Colors.white),
+        ),
+        backgroundColor: Colors.lightBlue[200],
       ),
-    );
+      );
   }
 }
 
@@ -35,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Side Bar'),
+
       ),
       body: Center(
         child: Column(
@@ -43,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
       drawer: Drawer( // Drawer 화면 그리기
         child: ListView(
           padding: EdgeInsets.zero,
@@ -62,6 +78,23 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile( // Item
               leading: Icon(Icons.message),
               title: Text('Messages'),
+
+              onTap: () {
+                setState(() {
+                  WebPageOpen();
+                });
+
+    }
+/*
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(title: Text('go'));
+                  }
+              );
+*/
+
+
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
@@ -76,6 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+void WebPageOpen()
+{
+    const url = 'https://google.com';
+    launch(url, forceWebView: true, forceSafariVC: true);
+  Future.delayed(Duration(seconds: 1));
 }
 
 /*
